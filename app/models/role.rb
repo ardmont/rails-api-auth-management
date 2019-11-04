@@ -1,4 +1,4 @@
 class Role < ApplicationRecord
   has_many :users
-  validates :type, :level, presence: true
+  validates :name, :level, presence: true
 end
