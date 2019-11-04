@@ -13,16 +13,16 @@
 ActiveRecord::Schema.define(version: 2019_11_04_120438) do
 
   create_table "roles", force: :cascade do |t|
-    t.string "type"
-    t.integer "level"
+    t.string "type", null: false
+    t.integer "level", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password", null: false
     t.integer "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
