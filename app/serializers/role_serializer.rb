@@ -1,3 +1,3 @@
 class RoleSerializer < ActiveModel::Serializer
-  attributes :id, :type, :level
+  attributes :id, :name, :level
 end
