@@ -87,6 +87,14 @@ RSpec.describe "Users requests", type: :request do
         expect(response).to have_http_status(422)
       end
     end
+
+    context 'When The email has already been taken' do
+      before { post '/users', as: :json, params: { name: 'Test User', email: user_sample.email, password: '123456', role_id: role.id } }
+
+      it 'Return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+    end
   end
 
   describe 'PUT /users/:id' do
@@ -95,7 +103,7 @@ RSpec.describe "Users requests", type: :request do
     context 'When user exists' do
       before { put "/users/#{user_sample_id}",  as: :json, params: valid_payload }
 
-      it 'Atualiza o registro' do
+      it 'Update user' do
         expect(json['name']).to eq('New name')
       end
 
