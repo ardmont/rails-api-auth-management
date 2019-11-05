@@ -1,4 +1,6 @@
 class LogsController < ApplicationController
+  before_action :set_log, only: :show
+
   # GET /logs
   def index
     @logs = Log.ransack(params).result.paginate(page: params[:page], per_page: params[:per_page] || 100)
