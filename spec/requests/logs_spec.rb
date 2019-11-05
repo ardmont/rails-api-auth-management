@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Logs", type: :request do
+RSpec.describe "Logs requests", type: :request do
   let!(:logs) { create_list(:log, 45) }
 
   describe "GET /logs" do

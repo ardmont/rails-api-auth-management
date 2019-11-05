@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Roles", type: :request do
+RSpec.describe "Roles requests", type: :request do
   describe "GET /roles" do
     it "Should return http status 200" do
       get roles_path
