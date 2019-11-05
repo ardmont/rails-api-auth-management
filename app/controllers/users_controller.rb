@@ -3,7 +3,9 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.ransack(params)
+    @users.sorts = 'name asc' if @users.sorts.empty?
+    @users = @users.result.includes(:role).paginate(page: params[:page], per_page: params[:per_page] || 100)
 
     render json: @users
   end

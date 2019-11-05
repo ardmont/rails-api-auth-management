@@ -1,7 +1,7 @@
 class LogsController < ApplicationController
   # GET /logs
   def index
-    @logs = Log.all
+    @logs = Log.ransack(params).result.paginate(page: params[:page], per_page: params[:per_page] || 100)
 
     render json: @logs
   end
