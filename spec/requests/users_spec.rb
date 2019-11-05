@@ -64,4 +64,52 @@ RSpec.describe "Users requests", type: :request do
       end
     end
   end
+
+  describe 'POST /users' do
+    let(:valid_payload) { { name: 'Test User', email: 'testuser@email.com', password: '123456', role_id: role.id } }
+
+    context 'When payload is valid' do
+      before { post '/users', as: :json, params: valid_payload }
+
+      it 'Create user' do
+        expect(json['name']).to eq('Test User')
+      end
+
+      it 'Return status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'When payload isn\'t valid' do
+      before { post '/users', as: :json, params: { role_id: role.id } }
+
+      it 'Return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+    end
+  end
+
+  describe 'PUT /users/:id' do
+    let(:valid_payload) { { name: 'New name' } }
+
+    context 'When user exists' do
+      before { put "/users/#{user_sample_id}",  as: :json, params: valid_payload }
+
+      it 'Atualiza o registro' do
+        expect(json['name']).to eq('New name')
+      end
+
+      it 'Return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'DELETE /users/:id' do
+    before { delete "/users/#{user_sample_id}" }
+
+    it 'Return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 end
