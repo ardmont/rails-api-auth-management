@@ -3,7 +3,7 @@ class RolesController < ApplicationController
 
   # GET /roles
   def index
-    @roles = Role.all
+    @roles = Role.all.reorder('level')
 
     render json: @roles
   end
