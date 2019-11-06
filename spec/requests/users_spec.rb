@@ -66,13 +66,17 @@ RSpec.describe "Users requests", type: :request do
   end
 
   describe 'POST /users' do
-    let(:valid_payload) { { name: 'Test User', email: 'testuser@email.com', password: '123456', role_id: role.id } }
+    let(:valid_payload) { { user: { name: 'Test User', email: 'testuser@email.com', password: '123456', role_id: role.id } } }
 
     context 'When payload is valid' do
       before { post '/users', as: :json, params: valid_payload }
 
       it 'Create user' do
         expect(json['name']).to eq('Test User')
+      end
+
+      it 'Password must be hashed with bcrypt' do
+        expect(json['password_digest'][0,4]).to eq('$2a$')
       end
 
       it 'Return status code 201' do
