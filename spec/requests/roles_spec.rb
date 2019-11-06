@@ -33,4 +33,60 @@ RSpec.describe "Roles requests", type: :request do
       end
     end
   end
+
+  describe 'POST /roles' do
+    let(:valid_payload) { { name: 'Test role', level: 3} }
+
+    context 'When payload is valid' do
+      before { post '/roles', as: :json, params: valid_payload }
+
+      it 'Create role' do
+        expect(json['name']).to eq('Test role')
+      end
+
+      it 'Return status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'When payload isn\'t valid' do
+      before { post '/roles', as: :json, params: { level: 3 } }
+
+      it 'Return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    context 'When the role name has already been taken' do
+      before { post '/roles', as: :json, params: { name: role_sample.name, level:2 } }
+
+      it 'Return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+    end
+  end
+
+  describe 'PUT /roles/:id' do
+    let(:valid_payload) { { name: 'New name' } }
+
+    context 'When role exists' do
+      before { put "/roles/#{role_sample_id}",  as: :json, params: valid_payload }
+
+      it 'Update role' do
+        expect(json['name']).to eq('New name')
+      end
+
+      it 'Return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'DELETE /roles/:id' do
+    before { delete "/roles/#{role_sample_id}" }
+
+    it 'Return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 end
